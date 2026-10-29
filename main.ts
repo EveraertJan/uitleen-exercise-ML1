@@ -7,6 +7,7 @@ const db = knex(knexfile);
 const app = express();
 const port = 3000;
 
+
 // parse JSON request bodies into req.body
 app.use(express.json());
 
@@ -123,6 +124,15 @@ app.post("/api/tools/:id/lend", async (req: Request, res: Response) => {
       return;
     }
 
+    // insert it into the history
+    const toInsert = {
+      toolId: tool.id,
+      studentId: student.id,
+      lentAt: new Date().toISOString(),
+      returnedAt: null
+    };
+    const insertedLoans = await db.insert(toInsert).into("loans");
+
     res.send({ ...tool, lentToStudentId: student.id });
   } catch (e) {
     console.error(e);
@@ -152,6 +162,7 @@ app.post("/api/tools/:id/return", async (req: Request, res: Response) => {
     res.status(500).send({ error: "Something went wrong" });
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Media Lab tools is running on http://localhost:${port}`);
