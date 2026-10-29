@@ -2,11 +2,11 @@ import express, { Request, Response } from "express";
 import knex from "knex";
 import knexfile from "./knexfile.js";
 
+
 const db = knex(knexfile);
 
 const app = express();
 const port = 3000;
-
 
 // parse JSON request bodies into req.body
 app.use(express.json());
