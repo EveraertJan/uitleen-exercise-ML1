@@ -10,6 +10,7 @@ const port = 3001;
 // parse JSON request bodies into req.body
 app.use(express.json());
 
+db.insert({student: "hello"});
 // serve the frontend (index.html, script.js, ...) from the public folder
 app.use(express.static("public"));
 
