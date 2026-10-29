@@ -94,7 +94,8 @@ function deleteTool(id: string) {
   sendRequest("/api/tools/" + id, "DELETE");
 }
 function toolHistory(id: string) {
-  document.getElementById("history-container-"+id)?.innerHTML = "";
+  const historyContainer = document.getElementById("history-container-"+id) as HTMLDivElement;
+  historyContainer.innerHTML = "";
   fetch(API_URI + "/api/tools/"+id+"/history")
     .then((r) => r.json()) 
     .then(data => {
@@ -105,7 +106,7 @@ function toolHistory(id: string) {
       const amountOfTimesText = `<p>Lent out ${data.length} times</p>`
       document.getElementById("history-container-"+id)?.insertAdjacentHTML("beforeend", amountOfTimesText);
 
-      data.forEach((record) => {
+      data.forEach((record: any) => {
         const loanInstance = new Loan(record.id, record.firstName, record.name, record.lentAt, record.returnedAt)
         console.log(loanInstance)
         const htmlString = loanInstance.renderHTMLString();

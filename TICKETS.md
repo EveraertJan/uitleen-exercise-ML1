@@ -41,7 +41,7 @@ Tips for all tickets:
 - A loan that was not returned yet shows "Still lent out" instead of a duration.
 
 **Acceptance criteria**
-- [ ] Lend a tool and return it: the history shows one row with the first name and a duration.
+- [x] Lend a tool and return it: the history shows one row with the first name and a duration.
 - [x] A tool that was lent out three times shows "Lent out 3 times" and three rows, newest first.
 - [x] A tool that is lent out right now shows "Still lent out".
 - [x] The response of `GET /api/tools/:id/history` contains no student numbers.
