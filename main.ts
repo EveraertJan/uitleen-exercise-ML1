@@ -164,6 +164,35 @@ app.post("/api/tools/:id/return", async (req: Request, res: Response) => {
 });
 
 
+// GET all tools. lentToStudentId is null when the tool is available.
+app.get("/api/tools/:id/history", async (req: Request, res: Response) => {
+
+  const tool = await db.select("*").table("tools").where({ id: req.params.id }).first();
+  if (!tool) {
+    res.status(404).send({ error: "Tool not found" });
+    return;
+  }
+
+  const requestToolId = req.params.id;
+
+
+  db
+  .select(["loans.id", "students.firstName", "tools.name", "loans.lentAt", "loans.returnedAt"])
+  .join("students", "students.id", "loans.studentId")
+  .join("tools", "tools.id", "loans.toolId")
+  .table("loans")
+  .where({toolId: requestToolId})
+  .orderBy("loans.id", "DESC")
+    .then((data) => {
+      console.log(data)
+      res.send(data);
+    })
+    .catch((e) => {
+      console.error(e);
+      res.status(500).send({ error: "Something went wrong" });
+    });
+});
+
 app.listen(port, () => {
   console.log(`Media Lab tools is running on http://localhost:${port}`);
 });
